@@ -18,7 +18,7 @@ export default function Banner() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5 }}
-          className="bg-white/20 backdrop-blur-md text-yellow-300 text-lg md:text-2xl px-6 py-4 rounded-xl shadow-lg border border-yellow-300 animate-pulse mx-10"
+          className="bg-white/20 font-serif backdrop-blur-md text-yellow-300 text-lg md:text-2xl px-6 py-4 rounded-xl shadow-lg border border-yellow-300 animate-pulse mx-10"
         >
           ⚡ Pikachu, an Electric-type Pokémon, is known for its cuteness and powerful Thunderbolt attack! It’s the most famous Pokémon and the face of the franchise. ⚡
         </motion.div>

@@ -1,14 +1,49 @@
 'use client'; // Mark this as a Client Component
 
 import { useRouter } from 'next/navigation'; // Use next/navigation for App Router
-
 import typeGradients from '@/src/utils/typeGradients';
 
-export default function PokemonDetail({ pokemon }: { pokemon: any }) {
+// Define TypeScript interface for Pokémon data
+interface PokemonType {
+  type: {
+    name: string;
+  };
+}
+
+interface Ability {
+  ability: {
+    name: string;
+  };
+}
+
+interface Stat {
+  stat: {
+    name: string;
+  };
+  base_stat: number;
+}
+
+interface PokemonProps {
+  pokemon: {
+    name: string;
+    sprites: {
+      other: {
+        'official-artwork': {
+          front_default: string;
+        };
+      };
+    };
+    types: PokemonType[];
+    abilities: Ability[];
+    stats: Stat[];
+  };
+}
+
+export default function PokemonDetail({ pokemon }: PokemonProps) {
   const router = useRouter();
 
   // Get background gradient based on Pokémon type
-  const mainType = pokemon.types[0]?.type.name || 'normal';
+  const mainType = pokemon.types?.[0]?.type.name || 'normal';
   const gradient = typeGradients[mainType] || 'from-gray-600 to-gray-900';
 
   const handleNavigate = () => {
@@ -17,6 +52,7 @@ export default function PokemonDetail({ pokemon }: { pokemon: any }) {
 
   return (
     <div>
+      {/* Header */}
       <div className="flex justify-between items-center p-6 bg-black">
         <img src="/pokedexplore.svg" alt="pokemon" className="h-12" />
         <button
@@ -27,16 +63,17 @@ export default function PokemonDetail({ pokemon }: { pokemon: any }) {
         </button>
       </div>
 
-      <div className={`flex justify-center items-center min-h-screen bg-black p-2`}>
+      {/* Pokémon Detail Container */}
+      <div className="flex justify-center items-center min-h-screen bg-black p-2">
         <div className={`bg-gradient-to-br ${gradient} shadow-xl rounded-2xl p-6 max-w-5xl w-full flex flex-col md:flex-row items-center`}>
+          
           {/* Left - Pokémon Image */}
           <div className="flex-1 flex justify-center relative">
-          <img
-  src={pokemon.sprites.other['official-artwork'].front_default}
-  alt={pokemon.name}
-  className="w-3/4 md:w-80 lg:w-96 h-auto object-contain drop-shadow-lg -mt-10"
-/>
-
+            <img
+              src={pokemon.sprites.other['official-artwork'].front_default}
+              alt={pokemon.name}
+              className="w-3/4 md:w-80 lg:w-96 h-auto object-contain drop-shadow-lg -mt-10"
+            />
           </div>
 
           {/* Right - Pokémon Details */}
@@ -45,7 +82,7 @@ export default function PokemonDetail({ pokemon }: { pokemon: any }) {
 
             {/* Type Badges */}
             <div className="flex justify-center md:justify-start mt-3 gap-2">
-              {pokemon.types.map((type: any) => (
+              {pokemon.types.map((type) => (
                 <span
                   key={type.type.name}
                   className="bg-black bg-opacity-30 px-4 py-2 rounded-full text-white uppercase font-semibold text-sm"
@@ -59,7 +96,7 @@ export default function PokemonDetail({ pokemon }: { pokemon: any }) {
             <div className="mt-6">
               <h2 className="text-2xl font-semibold text-black border-b pb-2">Abilities</h2>
               <ul className="mt-3 space-y-1">
-                {pokemon.abilities.map((ability: any) => (
+                {pokemon.abilities.map((ability) => (
                   <li key={ability.ability.name} className="capitalize text-lg text-black">
                     🔹 {ability.ability.name}
                   </li>
@@ -71,7 +108,7 @@ export default function PokemonDetail({ pokemon }: { pokemon: any }) {
             <div className="mt-6">
               <h2 className="text-2xl font-semibold text-black border-b pb-2">Stats</h2>
               <ul className="mt-3 space-y-1">
-                {pokemon.stats.map((stat: any) => (
+                {pokemon.stats.map((stat) => (
                   <li key={stat.stat.name} className="capitalize text-lg text-black">
                     ⚡ {stat.stat.name}: <span className="font-bold">{stat.base_stat}</span>
                   </li>
@@ -79,6 +116,7 @@ export default function PokemonDetail({ pokemon }: { pokemon: any }) {
               </ul>
             </div>
           </div>
+
         </div>
       </div>
     </div>
