@@ -1,19 +1,13 @@
 'use client';
-import { useState } from 'react';
 import Link from 'next/link';
+import { useState } from 'react';
+import { Pokemon, PokemonType, typeGradients } from '../utils/types';
 import Banner from './Banner';
-import typeGradients from '../utils/typeGradients';
-
-interface Pokemon {
-  name: string;
-  image: string;
-  types: string[];
-}
 
 export default function HomeClient({ pokemons }: { pokemons: Pokemon[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const pokemonsPerPage = 21; 
+  const pokemonsPerPage = 21; // Adjust number of Pokémon per page
 
   // Filter Pokémons based on search query
   const filteredPokemons = pokemons.filter((pokemon) =>
@@ -44,7 +38,7 @@ export default function HomeClient({ pokemons }: { pokemons: Pokemon[] }) {
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
-              setCurrentPage(1);
+              setCurrentPage(1); // Reset to first page on search
             }}
             className="p-4 w-full max-w-md text-white text-lg border border-yellow-400 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-gray-900"
           />
@@ -52,18 +46,20 @@ export default function HomeClient({ pokemons }: { pokemons: Pokemon[] }) {
 
         {/* Pokemon Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-12 mt-10 p-6">
-          {currentPokemons.map((pokemon) => {
-            const gradient = typeGradients[pokemon.types[0]] ?? 'from-gray-600 to-gray-900';
+          {currentPokemons.map((pokemon: Pokemon) => {
+            const mainType = pokemon.types[0]?.type?.name || 'normal';
+            const gradient = typeGradients[mainType] || 'from-gray-600 to-gray-900';
             return (
               <Link key={pokemon.name} href={`/pokemon/${pokemon.name}`}>
                 <div
-                  className={`p-6 bg-gradient-to-br ${gradient} border rounded-xl text-center transform hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out cursor-pointer `}
+                  className={`p-6 bg-gradient-to-br ${gradient} border rounded-xl text-center transform hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out cursor-pointer`}
                 >
                   {/* Pokemon Image */}
                   <img
                     src={pokemon.image}
                     alt={pokemon.name}
                     className="w-24 h-24 mx-auto -mt-16 drop-shadow-lg transition-transform duration-300 hover:scale-110"
+                    width={100} height={100} 
                   />
                   {/* Pokemon Name */}
                   <h2 className="text-lg font-bold capitalize mt-3 text-white">
@@ -71,12 +67,9 @@ export default function HomeClient({ pokemons }: { pokemons: Pokemon[] }) {
                   </h2>
                   {/* Pokemon Types */}
                   <div className="flex justify-center gap-1 mt-2">
-                    {pokemon.types.map((type) => (
-                      <span
-                        key={type}
-                        className="bg-black bg-opacity-40 px-2 py-1 rounded-full text-xs text-white font-semibold uppercase"
-                      >
-                        {type}
+                    {pokemon.types.map((typeObj: PokemonType) => (
+                      <span key={typeObj.type.name} className="...">
+                        {typeObj.type.name}
                       </span>
                     ))}
                   </div>
@@ -91,9 +84,8 @@ export default function HomeClient({ pokemons }: { pokemons: Pokemon[] }) {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-lg text-white font-bold ${
-              currentPage === 1 ? 'bg-gray-600 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600'
-            } transition`}
+            className={`px-4 py-2 rounded-lg text-white font-bold ${currentPage === 1 ? 'bg-gray-600 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600'
+              } transition`}
           >
             Previous
           </button>
@@ -105,9 +97,8 @@ export default function HomeClient({ pokemons }: { pokemons: Pokemon[] }) {
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-lg text-white font-bold ${
-              currentPage === totalPages ? 'bg-gray-600 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600'
-            } transition`}
+            className={`px-4 py-2 rounded-lg text-white font-bold ${currentPage === totalPages ? 'bg-gray-600 cursor-not-allowed' : 'bg-yellow-500 hover:bg-yellow-600'
+              } transition`}
           >
             Next
           </button>

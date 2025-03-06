@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import '../../app/banner.css';
 
@@ -11,6 +10,8 @@ export default function Banner() {
           src="/pokedexplore.svg"
           alt="Pokemon Main"
           className="object-contain mb-8 mt-5 pt-2 drop-shadow-[0_0_40px_rgba(255,215,0,0.9)] w-64 "
+          width={100}
+          height={100}
         />
 
         {/* Pikachu Introduction Section */}
