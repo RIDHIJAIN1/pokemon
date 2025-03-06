@@ -4,13 +4,13 @@ import '../../app/banner.css';
 
 export default function Banner() {
   return (
-    <div className="relative w-full flex items-center justify-center h-[80vh] bg-gradient-to-b from-yellow-500 to-red-600 min-h-screen overflow-hidden">
+    <div className="relative w-full flex items-center justify-center h-[80vh] bg-gradient-to-b from-red-950 to-red-700 min-h-screen overflow-hidden">
       <div className="relative w-full max-w-screen-xl flex flex-col items-center justify-center text-center">
         {/* Pokémon Logo */}
         <img
           src="/pokedexplore.svg"
           alt="Pokemon Main"
-          className="object-contain mb-5 mt-5 drop-shadow-[0_0_40px_rgba(255,215,0,0.9)] w-64"
+          className="object-contain mb-8 mt-5 pt-2 drop-shadow-[0_0_40px_rgba(255,215,0,0.9)] w-64 "
         />
 
         {/* Pikachu Introduction Section */}
