@@ -4,10 +4,16 @@ import Link from 'next/link';
 import Banner from './Banner';
 import typeGradients from '../utils/typeGradients';
 
-export default function HomeClient({ pokemons }: { pokemons: any[] }) {
+interface Pokemon {
+  name: string;
+  image: string;
+  types: string[];
+}
+
+export default function HomeClient({ pokemons }: { pokemons: Pokemon[] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const pokemonsPerPage = 21; // Adjust number of Pokémon per page
+  const pokemonsPerPage = 21; 
 
   // Filter Pokémons based on search query
   const filteredPokemons = pokemons.filter((pokemon) =>
@@ -38,7 +44,7 @@ export default function HomeClient({ pokemons }: { pokemons: any[] }) {
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
-              setCurrentPage(1); // Reset to first page on search
+              setCurrentPage(1);
             }}
             className="p-4 w-full max-w-md text-white text-lg border border-yellow-400 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-gray-900"
           />
@@ -46,12 +52,12 @@ export default function HomeClient({ pokemons }: { pokemons: any[] }) {
 
         {/* Pokemon Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-12 mt-10 p-6">
-          {currentPokemons.map((pokemon: any) => {
-            const gradient = typeGradients[pokemon.types[0]] || 'from-gray-600 to-gray-900';
+          {currentPokemons.map((pokemon) => {
+            const gradient = typeGradients[pokemon.types[0]] ?? 'from-gray-600 to-gray-900';
             return (
               <Link key={pokemon.name} href={`/pokemon/${pokemon.name}`}>
                 <div
-                  className={`p-6 bg-gradient-to-br ${gradient} border rounded-xl text-center transform hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out cursor-pointer`}
+                  className={`p-6 bg-gradient-to-br ${gradient} border rounded-xl text-center transform hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out cursor-pointer `}
                 >
                   {/* Pokemon Image */}
                   <img
@@ -65,7 +71,7 @@ export default function HomeClient({ pokemons }: { pokemons: any[] }) {
                   </h2>
                   {/* Pokemon Types */}
                   <div className="flex justify-center gap-1 mt-2">
-                    {pokemon.types.map((type: string) => (
+                    {pokemon.types.map((type) => (
                       <span
                         key={type}
                         className="bg-black bg-opacity-40 px-2 py-1 rounded-full text-xs text-white font-semibold uppercase"
@@ -92,7 +98,7 @@ export default function HomeClient({ pokemons }: { pokemons: any[] }) {
             Previous
           </button>
 
-          <span className="text-white text-lg">
+          <span className="text-white text-lg font-serif">
             Page {currentPage} of {totalPages}
           </span>
 
