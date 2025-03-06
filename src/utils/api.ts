@@ -13,6 +13,7 @@ export const fetchPokemons = async (limit = 151, offset = 0) => {
       return {
         name: pokemon.name,
         image:  details.data.sprites.other['official-artwork'].front_default,
+        types: details.data.types.map((typeObj: any) => typeObj.type.name),
       };
     })
   );
